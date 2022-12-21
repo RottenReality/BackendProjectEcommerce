@@ -1,8 +1,9 @@
-const prodList = require('./productos');
-const cartList = require('./carrito');
+const prodList = require('./managers/contenedorProductos');
+const cartList = require('./managers/contenedorCarrito');
 const express = require('express');
 
 const { Router } = require('express');
+const { ContenedorDaoProducts, ContenedorDaoCarts } = require('./daos/index');
 
 const PORT = 8080;
 //const PORT = process.env.PORT || 8080;
@@ -17,8 +18,9 @@ app.listen(PORT, ()=>{
     console.log(`Servidor escuchando el puerto: ${PORT}`);
 })
 
-let prods = new prodList.Contenedor("./productos.txt")
-let carts = new cartList.Contenedor("./carrito.txt")
+
+const prods = ContenedorDaoProducts;
+const carts = ContenedorDaoCarts;
 
 const routerProductos = Router();
 const routerCarrito = Router();
