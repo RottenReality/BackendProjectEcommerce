@@ -233,5 +233,4 @@ class ContenedorCarts{
 
 
 
-
-module.exports={ ContenedorProducts, ContenedorCarts }
+export{ ContenedorProducts, ContenedorCarts };

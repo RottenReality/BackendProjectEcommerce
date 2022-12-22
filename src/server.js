@@ -1,9 +1,9 @@
-const prodList = require('./managers/contenedorProductos');
-const cartList = require('./managers/contenedorCarrito');
-const express = require('express');
+//const prodList = require('./managers/contenedorProductos');
+//const cartList = require('./managers/contenedorCarrito');
+import express from 'express';
 
-const { Router } = require('express');
-const { ContenedorDaoProducts, ContenedorDaoCarts } = require('./daos/index');
+import { Router } from 'express';
+import { ContenedorDaoProducts, ContenedorDaoCarts } from './daos/index.js';
 
 const PORT = 8080;
 //const PORT = process.env.PORT || 8080;
@@ -43,7 +43,7 @@ routerProductos.post('/', async (req,res)=>{
     let productoNuevo = req.body;
     productoNuevo.timestamp = Date.now();
     let productoAgregado = await prods.save(productoNuevo);
-    res.json(productoAgregado)
+    res.json(productoAgregado)                      ;
 })
 
 routerProductos.put('/:id', async (req,res)=>{

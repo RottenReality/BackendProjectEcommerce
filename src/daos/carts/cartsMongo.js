@@ -1,9 +1,9 @@
 import { ContenedorCarts } from "../../managers/contenedorMongo.js";
 
-class ProductsDAOMongo extends ContenedorCarts{
+class CartsDAOMongo extends ContenedorCarts{
     constructor(dbInfo){
         super(dbInfo);
     }
 }
 
-export {ProductsDAOMongo};
+export {CartsDAOMongo};

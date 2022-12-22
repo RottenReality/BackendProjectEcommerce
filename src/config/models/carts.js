@@ -5,8 +5,9 @@ const cartsCollection = "carts";
 const cartsSchema = new mongoose.Schema(
     {
         timestamp:String,
-        products:Arrays
+        products:Array
     }
 );
+const CartsModel = mongoose.model(cartsCollection, cartsSchema);
 
-export const CartsModel = mongoose.model(cartsCollection, cartsSchema);
+export {CartsModel};

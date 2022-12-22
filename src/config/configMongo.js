@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { UserModel as productsModel } from "./models/products.js";
-import { UserModel as cartsModel } from "./models/carts.js";
+import { ProductsModel } from "./models/products.js";
+import { CartsModel } from "./models/carts.js";
 
 mongoose.connect("mongodb+srv://rottenreality:BgkBxsB9PWTvBNoW@coderbackend.oorljea.mongodb.net/ecommerce?retryWrites=true&w=majority",
 {
@@ -11,7 +11,7 @@ mongoose.connect("mongodb+srv://rottenreality:BgkBxsB9PWTvBNoW@coderbackend.oorl
     console.log("conexion exitosa");
 })
 
-let users = productsModel;
-let carts = cartsModel;
+let products = ProductsModel;
+let carts = CartsModel;
 
-export {users, carts};
+export {products, carts};

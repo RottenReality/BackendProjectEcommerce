@@ -6,11 +6,13 @@ const productsSchema = new mongoose.Schema(
     {
         title:String,
         description:String,
-        price:Integer,
-        stock:Integer,
+        price:Number,
+        stock:Number,
         thumbnail:String,
         timestamp:String
     }
 );
 
-export const ProductsModel = mongoose.model(productsCollection, productsSchema);
+const ProductsModel = mongoose.model(productsCollection, productsSchema);
+
+export {ProductsModel};
