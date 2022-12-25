@@ -1,5 +1,3 @@
-//const prodList = require('./managers/contenedorProductos');
-//const cartList = require('./managers/contenedorCarrito');
 import express from 'express';
 
 import { Router } from 'express';
