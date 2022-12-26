@@ -7,7 +7,7 @@ class ContenedorProducts{
 
     async save(objeto){
         try{
-            await this.model.insert(objeto);
+            await this.model.create(objeto);
             return "producto guardado con éxito";
         } catch(error){
             return "error, no se pudo guardar";
@@ -30,9 +30,8 @@ class ContenedorProducts{
 
     async getById(idProd){
         try {
-            const lista = await this.getAll();
-            const pro = lista.find((elemento)=>elemento.id === idProd);
-            return pro;
+            const product = await this.model.find({_id:idProd})
+            return product
         } catch (error) {
             return "no se encuentra producto"
         }
@@ -41,10 +40,10 @@ class ContenedorProducts{
     async editById(id, obj){
         try {
             this.model.updateOne(
-                {_id : ObjectId(id)}, 
+                {_id : id}, 
                 {$set: {"title": obj.title, "thumbnail": obj.thumbnail, "price": obj.price, "code": obj.code, "description": obj.description, "stock": obj.stock}}
             );
-            return "editado con éxito"
+            return {"ok":"editado con éxito"}
         } catch (error) {
             return {"error":"producto no encontrado"}
         }
@@ -52,7 +51,7 @@ class ContenedorProducts{
 
     async deleteByiD(id){
         try{
-            await this.model.deleteOne({_id : ObjectId(id)});
+            await this.model.deleteOne({_id :id});
             return "Producto eliminado con éxito";
         } catch (error){
             return {"error":"no se puede eliminar"}
@@ -83,7 +82,7 @@ class ContenedorCarts{
             let prods = cart.products;
             prods.push(prod);
 
-            let result = this.model.updateOne({_id : ObjectId(idCart)}, {$set: {"producto": prods}});
+            let result = this.model.updateOne({_id : idCart}, {$set: {"producto": prods}});
 
             return result;
 
@@ -131,7 +130,7 @@ class ContenedorCarts{
 
     async editById(id, obj){
         try {
-            this.model.updateOne({_id : ObjectId(id)}, {$set: {"producto": obj}});
+            this.model.updateOne({_id : id}, {$set: {"producto": obj}});
             return "editado con éxito"
         } catch (error) {
             return {"error":"producto no encontrado"}
@@ -157,7 +156,7 @@ class ContenedorCarts{
 
     async deleteCart(idCart){
         try{
-            await this.model.deleteOne({_id : ObjectId(idCart)})
+            await this.model.deleteOne({_id : idCart})
             return "carrito eliminado con éxito";
         } catch (error){
             return {"error":"no se puede eliminar"}

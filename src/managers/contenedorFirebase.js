@@ -1,15 +1,15 @@
 
 class ContenedorProducts{
 
-    constructor (db){
-        this.db = db;
+    constructor (dbCol){
+        this.dbCol = dbCol.collection("products");
         
     };
 
     async save(objeto){
         try{
-            const userCollection = db.collection("products");
-            const doc = userCollection.doc();
+            
+            const doc = dbCol.doc();
             await doc.create({
                 title: objeto.title, 
                 description: objeto.description,
@@ -27,8 +27,8 @@ class ContenedorProducts{
 
     async getAll(){
         try {
-            const userCollection = db.collection("products");
-            const snapshot = await userCollection.get();
+            
+            const snapshot = await dbCol.get();
             const docs = snapshot.docs;
             let products = docs.map(doc=>{
                 return{
@@ -65,8 +65,8 @@ class ContenedorProducts{
 
     async editById(id, obj){
         try {
-            const userCollection = db.collection("products");
-            const doc = userCollection.doc(id);
+            
+            const doc = dbCol.doc(id);
             let result = await doc.update({
                 title: obj.title,
                 description: obj.description,
@@ -82,8 +82,8 @@ class ContenedorProducts{
 
     async deleteByiD(id){
         try{
-            const userCollection = db.collection("products");
-            const doc = userCollection.doc(id);
+            
+            const doc = dbCol.doc(id);
             let result = await doc.delete();
             return "Producto eliminado con éxito";
         } catch (error){

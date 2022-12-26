@@ -2,15 +2,15 @@
 let ContenedorDaoProducts;
 let ContenedorDaoCarts;
 
-let databaseType = "firebase";
+let databaseType = "mongo";
 
 switch(databaseType){
     case "filesystem":
         const {ProductsDAOArchivos} = await import("./products/productsArchivos.js");
         const {CartsDAOArchivos} = await import("./carts/cartsArchivos.js");
 
-        ContenedorDaoProducts = new ProductsDAOArchivos("../files/productos.txt");
-        ContenedorDaoCarts = new CartsDAOArchivos("../files/carrito.txt");
+        ContenedorDaoProducts = new ProductsDAOArchivos("./src/files/productos.txt");
+        ContenedorDaoCarts = new CartsDAOArchivos("./src/files/carrito.txt");
     break;
 
     case "firebase":
