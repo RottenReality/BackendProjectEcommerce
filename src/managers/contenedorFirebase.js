@@ -20,7 +20,8 @@ class ContenedorProducts{
             });
             return "Producto agregado con éxito"
         } catch (error) {
-            return "error, producto no se pudo guardar."
+            
+            return error
         }
 
     }

@@ -19,14 +19,14 @@ class Contenedor{
                 } else{
                     carrito.products.push(idProd);
                     const carts = await this.getAll();
-                    carts[idCart - 1] = carrito;
+                    carts[parseInt(idCart) - 1] = carrito;
                     fs.promises.writeFile(this.filename, JSON.stringify(carts, null, 2))
                     return carrito;
                 }
             } else {
                 carrito.products.push(idProd);
                 const carts = await this.getAll();
-                carts[idCart - 1] = carrito;
+                carts[parseInt(idCart) - 1] = carrito;
                 fs.promises.writeFile(this.filename, JSON.stringify(carts, null, 2))
                 return carrito;
             }
@@ -43,7 +43,7 @@ class Contenedor{
             if(fs.existsSync(this.filename)){
                 const carrito = await this.getAll();
                 if(carrito.length > 0){
-                    const lastId = carrito[carrito.length-1].id + 1;
+                    const lastId = parseInt(carrito[carrito.length-1].id) + 1;
                     rito.id = lastId;
                     rito.timestamp = Date.now();
                     rito.products = [];
@@ -72,7 +72,7 @@ class Contenedor{
     async getProducts(idCart){
         try {
             const carrito = await this.getAll();
-            const filtCart = carrito.find(elemento=>elemento.id === idCart);
+            const filtCart = carrito.find(elemento=>elemento.id === parseInt(idCart));
             return filtCart.products;
         } catch (error) {
             return "no se encuentra carrito"
@@ -99,7 +99,7 @@ class Contenedor{
     async getById(id){
         try {
             const carrito = await this.getAll();
-            const filtCart = carrito.find(elemento=>elemento.id === id);
+            const filtCart = carrito.find(elemento=>elemento.id === parseInt(id));
             return filtCart;
         } catch (error) {
             return "no se encuentra carrito"
@@ -110,11 +110,11 @@ class Contenedor{
         try {
             const productos = await this.getAll();
             if(id <= productos.length){
-                productos[id - 1] = obj
-                return " producto editado con éxito"
+                productos[parseInt(id) - 1] = obj
+                return " carrito editado con éxito"
             }
             else{
-                return {"error":"producto no encontrado"}
+                return {"error":"carrito no encontrado"}
             }
             
         } catch (error) {
@@ -128,11 +128,11 @@ class Contenedor{
             let lista = await this.getAll();
 
             let filtCart = await this.getById(idCart);
-            const prods = filtCart.products.filter(elemento=>elemento.id != idProd)
+            const prods = filtCart.products.filter(elemento=>elemento.id !== parseInt(idProd))
 
             filtCart.products = prods;
 
-            lista[idCart - 1] = filtCart;
+            lista[parseInt(idCart) - 1] = filtCart;
 
             fs.promises.writeFile(this.filename, JSON.stringify(lista, null, 2));
             return "Producto eliminado con éxito";
@@ -145,7 +145,7 @@ class Contenedor{
     async deleteCart(idCart){
         try{
             const list = await this.getAll();
-            const filtered = list.filter((element)=>element.id != idCart)
+            const filtered = list.filter((element)=>element.id !== parseInt(idCart))
             fs.promises.writeFile(this.filename, JSON.stringify(filtered, null, 2))
             return "carrito eliminado";
         } 

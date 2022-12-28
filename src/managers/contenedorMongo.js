@@ -1,3 +1,5 @@
+import { isObjectIdOrHexString } from "mongoose";
+
 class ContenedorProducts{
 
     constructor (model){
@@ -30,9 +32,10 @@ class ContenedorProducts{
 
     async getById(idProd){
         try {
-            const product = await this.model.find({_id:idProd})
+            const product = await this.model.findOne({_id:idProd})
             return product
         } catch (error) {
+            console.log(error)
             return "no se encuentra producto"
         }
     }
@@ -41,7 +44,16 @@ class ContenedorProducts{
         try {
             this.model.updateOne(
                 {_id : id}, 
-                {$set: {"title": obj.title, "thumbnail": obj.thumbnail, "price": obj.price, "code": obj.code, "description": obj.description, "stock": obj.stock}}
+                {
+                    $set: {
+                        title: obj.title, 
+                        thumbnail: obj.thumbnail, 
+                        price: obj.price, 
+                        code: obj.code, 
+                        description: obj.description, 
+                        stock: obj.stock
+                    }
+                }
             );
             return {"ok":"editado con éxito"}
         } catch (error) {
@@ -51,7 +63,7 @@ class ContenedorProducts{
 
     async deleteByiD(id){
         try{
-            await this.model.deleteOne({_id :id});
+            await this.model.deleteOne({_id:id});
             return "Producto eliminado con éxito";
         } catch (error){
             return {"error":"no se puede eliminar"}
@@ -75,6 +87,21 @@ class ContenedorCarts{
         
     };
 
+    async createCart(){
+        try{
+            const cart = {
+                timestamp: Date.now(),
+                products: []
+            }
+
+            await this.model.create(cart);
+            return cart;
+        } catch(error){
+            console.log(error)
+            return "Error al crear carrito";
+        }
+    }
+
     async saveProd(idCart, prod){
         
         try{
@@ -96,7 +123,7 @@ class ContenedorCarts{
     async getProducts(idCart){
         try {
             const carrito = await this.getAll();
-            const filtCart = carrito.find(elemento=>elemento.id === idCart);
+            const filtCart = carrito.find(elemento=>elemento.id == idCart);
             return filtCart.products;
         } catch (error) {
             return "no se encuentra carrito"
@@ -130,7 +157,7 @@ class ContenedorCarts{
 
     async editById(id, obj){
         try {
-            this.model.updateOne({_id : id}, {$set: {"producto": obj}});
+            this.model.updateOne({_id : id}, {$set: {"productos": obj}});
             return "editado con éxito"
         } catch (error) {
             return {"error":"producto no encontrado"}
@@ -143,7 +170,7 @@ class ContenedorCarts{
             const pros = this.getById(idCart);
             const ed = pros.filter(elemento=>elemento.id != idProd);
             pros.products = ed;
-            await this.updateByID(idCart, pros.productos);
+            await this.model.updateById(idCart, pros.productos);
              
 
             return "producto eliminado con éxito";

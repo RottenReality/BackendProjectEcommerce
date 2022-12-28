@@ -10,7 +10,7 @@ class Contenedor{
             if(fs.existsSync(this.filename)){
                 const productos = await this.getAll();
                 if(productos.length > 0){
-                    const lastId = productos[productos.length-1].id + 1;
+                    const lastId = parseInt(productos[productos.length-1].id) + 1;
                     objeto.id = lastId;
                     productos.push(objeto);
                     fs.promises.writeFile(this.filename, JSON.stringify(productos, null, 2))
@@ -50,7 +50,7 @@ class Contenedor{
     async getById(idProd){
         try {
             const lista = await this.getAll();
-            const pro = lista.find((elemento)=>elemento.id === idProd);
+            const pro = lista.find((elemento)=>elemento.id == idProd);
             return pro;
         } catch (error) {
             return "no se encuentra producto"
@@ -61,7 +61,9 @@ class Contenedor{
         try {
             const productos = await this.getAll();
             if(id <= productos.length){
-                productos[id - 1] = obj
+                productos[id - 1] = obj;
+                productos[id - 1].id = parseInt(id);
+                fs.promises.writeFile(this.filename, JSON.stringify(productos, null, 2));
                 return " producto editado con éxito"
             }
             else{
@@ -76,7 +78,7 @@ class Contenedor{
     async deleteByiD(id){
         try{
             const productos = await this.getAll();
-            const nProds = productos.filter(elemento=>elemento.id !== id)
+            const nProds = productos.filter(elemento=>elemento.id != id)
             fs.promises.writeFile(this.filename, JSON.stringify(nProds, null, 2))
         } catch (error){
             return {"error":"no se puede eliminar"}

@@ -32,7 +32,7 @@ routerProductos.get('/',  async (req, res) =>{
 })
 
 routerProductos.get('/:id', async (req, res) =>{
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const pro = await prods.getById(id);
     res.json(pro)
 })
@@ -45,7 +45,7 @@ routerProductos.post('/', async (req,res)=>{
 })
 
 routerProductos.put('/:id', async (req,res)=>{
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     let productoNuevo = req.body;
     productoNuevo.timestamp = Date.now();
     let productoEditado = await prods.editById(id, productoNuevo);
@@ -54,7 +54,7 @@ routerProductos.put('/:id', async (req,res)=>{
 
 
 routerProductos.delete('/:id', async (req,res)=>{
-    let id = parseInt(req.params.id);
+    let id = req.params.id;
     const mensaje = await prods.deleteByiD(id);
     res.json(mensaje);
 })
@@ -73,7 +73,7 @@ routerCarrito.post('/', async (req,res)=>{
 })
 
 routerCarrito.delete('/:id', async (req,res)=>{
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const result = await carts.deleteCart(id);
 
     res.json(result);
@@ -81,14 +81,14 @@ routerCarrito.delete('/:id', async (req,res)=>{
 })
 
 routerCarrito.get('/:id/productos', async (req, res) =>{
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const productos = await carts.getProducts(id);
     res.json(productos);
 })
 
 routerCarrito.post('/:id/productos', async (req,res)=>{
-    const idCart = parseInt(req.params.id);
-    const id = parseInt(req.body.id);
+    const idCart = req.params.id;
+    const id = req.body.id;
     const obt = await prods.getById(id);
 
 
@@ -104,8 +104,8 @@ routerCarrito.post('/:id/productos', async (req,res)=>{
 })
 
 routerCarrito.delete('/:id/productos/:id_prod', async (req,res)=>{
-    const idCart = parseInt(req.params.id);
-    const idProd = parseInt(req.params.id_prod);
+    const idCart = req.params.id;
+    const idProd = req.params.id_prod;
     const result = await carts.deleteProdByiD(idCart, idProd);
 
     res.send(result);
