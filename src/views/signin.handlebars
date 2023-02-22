@@ -1,0 +1,15 @@
+<h2 class="mx-5 my-2">Formulario de Inicio de sesión</h2>
+<div class="mx-5 my-2">
+    {{#if error}}
+        <p>{{error}}</p>
+    {{/if}}
+    <form action="/api/auth/signin" method="post">
+        <label>Correo:</label>
+        <input type="text" name="email" placeholder="Ingresa tu correo">
+        <label>Contraseña:</label>
+        <input type="text" name="password" placeholder="Ingresa tu contraseña">
+        <button type="submit" class="btn btn-info my-3">Iniciar sesión</button>
+    </form>
+    <hr>
+    <a href="/api/auth/signup">no tiene cuenta?, registrese</a>
+</div>

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userCollection = "users";
 
@@ -29,5 +30,13 @@ const userSchema = new mongoose.Schema({
     },
     avatar:String
 });
+
+userSchema.methods.encryptPassword = (password) => {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync());
+  };
+  
+  userSchema.methods.comparePassword= function (password) {
+    return bcrypt.compareSync(password, this.password);
+  };
 
 export const UserModel = mongoose.model(userCollection, userSchema);

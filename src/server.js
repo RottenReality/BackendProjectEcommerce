@@ -4,6 +4,9 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { url } from './config/configMongo.js';
 import passport from 'passport';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import handlebars from 'express-handlebars';
 
 
 import { routerProductos } from './routes/products.js';
@@ -13,6 +16,12 @@ import { authRouter } from './routes/auth.js';
 
 //const PORT = process.env.PORT || 8080;
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+const viewsFolder = path.join(__dirname, "views");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -29,6 +38,10 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.engine("handlebars", handlebars.engine());
+app.set("views", viewsFolder);
+app.set("view engine", "handlebars");
 
 
 app.use('/api/productos', routerProductos);
