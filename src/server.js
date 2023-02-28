@@ -1,9 +1,5 @@
 import express from 'express';
 import { logger } from './loggers/logger.js';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import { url } from './config/configMongo.js';
-import passport from 'passport';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import handlebars from 'express-handlebars';
@@ -27,17 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-app.use(session({
-    store:MongoStore.create({
-        mongoUrl:url
-    }),
-    secret:"claveSecreta",
-    resave:false,
-    saveUninitialized:false
-}));
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", viewsFolder);

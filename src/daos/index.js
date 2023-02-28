@@ -1,6 +1,7 @@
 
 let ContenedorDaoProducts;
 let ContenedorDaoCarts;
+let ContenedorDaoUsers;
 
 let databaseType = "mongo";
 
@@ -25,11 +26,13 @@ switch(databaseType){
     case "mongo":
         const {ProductsDAOMongo} = await import("./products/productsMongo.js");
         const {CartsDAOMongo} = await import("./carts/cartsMongo.js");
-        const {products, carts} = await import("../config/configMongo.js");
+        const {UsersDAOMongo} = await import("./users/userMongo.js");
+        const {products, carts, users} = await import("../config/configMongo.js");
 
         ContenedorDaoProducts = new ProductsDAOMongo(products);
         ContenedorDaoCarts = new CartsDAOMongo(carts);
+        ContenedorDaoUsers = new UsersDAOMongo(users);
     break;
 };
 
-export{ContenedorDaoProducts, ContenedorDaoCarts};
+export{ContenedorDaoProducts, ContenedorDaoCarts, ContenedorDaoUsers};

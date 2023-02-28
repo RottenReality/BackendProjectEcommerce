@@ -1,0 +1,11 @@
+{{> nav}}
+<div>
+    <h2>lista de productos</h2>
+    {{#each productos}}
+        <div>
+            <p>{{this.title}}</p>
+            <img width="100" src="{{this.thumbnail}}" alt="imagen de producto">
+            <p>${{this.price}}</p>
+        </div>
+    {{/each}}
+</div>

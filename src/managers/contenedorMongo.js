@@ -193,6 +193,43 @@ class ContenedorCarts{
     
 }
 
+//---------------------------------------------------------------------------------------
+
+class ContenedorUsers{
+
+    constructor (model){
+        this.model = model;
+        
+    };
+
+    async getAll(){
+        try {
+            let users = await this.model.find()
+            if(users.length > 0){
+                return users
+            } else{
+                return [];
+            }
+        } catch (error) {
+            return "error en lectura de usuarios"
+        }
+        
+    }
+
+    async getById(id){
+        try {
+            const user = await this.model.findOne({_id:id})
+            return user
+        } catch (error) {
+            console.log(error)
+            return "no se encuentra usuario"
+        }
+    }
 
 
-export{ ContenedorProducts, ContenedorCarts };
+
+}
+
+
+
+export{ ContenedorProducts, ContenedorCarts, ContenedorUsers };

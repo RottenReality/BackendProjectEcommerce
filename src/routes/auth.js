@@ -1,7 +1,24 @@
 import express from "express";
 import passport from "passport";
+import mongoose from "mongoose";
+import MongoStore from 'connect-mongo';
+import { url } from '../config/configMongo.js'
+import session from "express-session";
 import { Strategy as LocalStrategy} from "passport-local";
 import { UserModel } from "../config/models/user.js";
+import { ContenedorDaoUsers } from '../daos/index.js';
+import {checkUserLogged} from '../middlewares/authMidd.js'
+
+
+mongoose.connect(url,{
+    useNewUrlParsers:true,
+    useUnifiedTopology: true
+},(error)=>{
+    if(error) console.log("Conexión fallida");
+    console.log("Base de datos conectada correctamente")
+});
+
+const users = ContenedorDaoUsers;
 
 const createHash = (password)=>{
     return bcrypt.hashSync(password, bcrypt.genSaltSync());
@@ -12,6 +29,20 @@ const comparePassword = (password)=> {
 };
 
 const authRouter = express.Router();
+
+
+authRouter.use(session({
+    store:MongoStore.create({
+        mongoUrl:url
+    }),
+    secret:"claveSecreta",
+    resave:false,
+    saveUninitialized:false
+}));
+
+authRouter.use(passport.initialize());
+authRouter.use(passport.session());
+
 
 passport.serializeUser((user, done)=>{
     return done(null, user.id)
@@ -70,6 +101,7 @@ passport.use('signinStrategy', new LocalStrategy(
 ))
 
 authRouter.get("/signup",(req, res)=>{
+    if(req.session.passport) res.redirect("profile")
     res.render("signup")
 });
 
@@ -77,7 +109,7 @@ authRouter.post("/signup", passport.authenticate("signupStrategy", {
     failureRedirect:"api/auth/signupError",
     failureMessage:true
 }), (req, res)=>{
-    res.send("usuario registrado y autenticado")
+    res.redirect("profile")
 });
 
 authRouter.get("/signupError",(req, res)=>{
@@ -87,6 +119,7 @@ authRouter.get("/signupError",(req, res)=>{
 });
 
 authRouter.get("/signin",(req, res)=>{
+    if(req.session.passport) res.redirect("profile")
     res.render("signin")
 });
 
@@ -103,16 +136,16 @@ authRouter.post("/logout",(req, res)=>{
     });
 });
 
-authRouter.get("/home",(req, res)=>{
-    res.send("prueba rutas autenticación")
-});
-
 authRouter.get("/test",(req, res)=>{
     res.render("signup")
 });
 
-authRouter.get("/profile",(req, res)=>{
-    res.render("profile")
+authRouter.get("/profile", checkUserLogged, async (req, res)=>{
+
+    const info = await users.getById(req.session.passport.user);
+    res.render("profile", {info: info.toJSON()})
+    
+
 });
 
 export {authRouter};

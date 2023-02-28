@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ProductsModel } from "./models/products.js";
 import { CartsModel } from "./models/carts.js";
+import { UserModel } from "./models/user.js";
 import { logger } from "../loggers/logger.js";
 
 const url = "mongodb+srv://rottenreality:BgkBxsB9PWTvBNoW@coderbackend.oorljea.mongodb.net/ecommerce?retryWrites=true&w=majority"
@@ -16,5 +17,6 @@ mongoose.connect(url,
 
 let products = ProductsModel;
 let carts = CartsModel;
+let users = UserModel;
 
-export {products, carts, url};
+export {products, carts, users, url};
