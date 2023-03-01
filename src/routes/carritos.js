@@ -1,5 +1,6 @@
 import express from 'express';
 import { ContenedorDaoCarts } from '../daos/index.js';
+import {checkUserLogged} from '../middlewares/authMidd.js'
 
 const carts = ContenedorDaoCarts
 

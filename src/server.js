@@ -3,6 +3,8 @@ import { logger } from './loggers/logger.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import handlebars from 'express-handlebars';
+import session from "express-session";
+import passport from "./passport.js";
 
 
 import { routerProductos } from './routes/products.js';
@@ -22,6 +24,15 @@ const viewsFolder = path.join(__dirname, "views");
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
+
+app.use(session({
+    secret: "claveSecreta",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 

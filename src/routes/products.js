@@ -8,7 +8,6 @@ const routerProductos = express.Router();
 
 routerProductos.get('/', checkUserLogged,  async (req, res) =>{
     const listProductos = await prods.getAll();
-    console.log(req.cookies)
     res.render("prods", {productos: listProductos.map(producto => producto.toJSON())})
 })
 

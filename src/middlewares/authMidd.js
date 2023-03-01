@@ -1,7 +1,9 @@
-export const checkUserLogged = (req, res, next)=>{
-    if(req.session.passport){
-        next()
+const checkUserLogged = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
     } else {
-        res.status(401).json({error:"Por favor inicia sesion"})
+      res.redirect('/api/auth/signin');
     }
-}
+  };
+
+  export {checkUserLogged};
