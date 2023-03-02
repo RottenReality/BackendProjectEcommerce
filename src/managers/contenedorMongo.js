@@ -87,9 +87,10 @@ class ContenedorCarts{
         
     };
 
-    async createCart(){
+    async createCart(usuario){
         try{
             const cart = {
+                user: usuario,
                 timestamp: Date.now(),
                 products: []
             }
@@ -102,28 +103,39 @@ class ContenedorCarts{
         }
     }
 
-    async saveProd(idCart, prod){
-        
+    async saveProd(idCart, prod) {
+        try {
+            const cart = await this.model.findOneAndUpdate(
+                { user: idCart },
+                { $push: { products: prod } },
+                { new: true }
+            );
+        } catch (error) {
+            console.error(error);
+            return "error, no se pudo guardar.";
+        }
+    }
+
+    async total(idUser){
         try{
-            const cart = await this.getById(idCart);
-            let prods = cart.products;
-            prods.push(prod);
+            let total = 0;
+            const cart = await this.getById(idUser);
+            if(cart.products.length > 0){
+                cart.products.forEach(producto => total = total + (+producto.price));
+            }
 
-            let result = this.model.updateOne({_id : idCart}, {$set: {"producto": prods}});
-
-            return result;
-
+            return total;
 
         } catch (error) {
-            return "error, no se pudo guardar."
+            return "error, no se pudo sacar total."
         }
     }
 
 
-    async getProducts(idCart){
+
+    async getProducts(idUser){
         try {
-            const carrito = await this.getAll();
-            const filtCart = carrito.find(elemento=>elemento.id == idCart);
+            const filtCart = await this.model.findOne({user : idUser})
             return filtCart.products;
         } catch (error) {
             return "no se encuentra carrito"
@@ -145,12 +157,12 @@ class ContenedorCarts{
         
     }
 
-    async getById(id){
+    async getById(idUser){
         try {
-            const carrito = await this.getAll();
-            const filtCart = carrito.find(elemento=>elemento.id === id);
-            return filtCart;
+            const carrito = await this.model.findOne({user:idUser})
+            return carrito;
         } catch (error) {
+            console.log(error)
             return "no se encuentra carrito"
         }
     }

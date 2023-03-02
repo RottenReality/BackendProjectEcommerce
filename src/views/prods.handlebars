@@ -1,11 +1,51 @@
 {{> nav}}
+
 <div>
-    <h2>lista de productos</h2>
-    {{#each productos}}
-        <div>
-            <p>{{this.title}}</p>
-            <img width="100" src="{{this.thumbnail}}" alt="imagen de producto">
-            <p>${{this.price}}</p>
-        </div>
-    {{/each}}
+  <h2>lista de productos</h2>
+  {{#each productos}}
+    <div>
+      <p>{{this.title}}</p>
+      <img width="100" src="{{this.thumbnail}}" alt="imagen de producto">
+      <p>${{this.price}}</p>
+      <form onsubmit="addToCart(event)">
+        <input type="hidden" name="name" value="{{this.title}}">
+        <input type="hidden" name="price" value="{{this.price}}">
+        <input type="hidden" name="thumbnail" value="{{this.thumbnail}}">
+        <label for="quantity-{{this._id}}">Cantidad:</label>
+        <input type="number" name="quantity" id="quantity-{{this._id}}" value="1" min="1" max="10">
+        <button onclick="alertaCarrito()" type="submit" class="btn btn-info my-3">Agregar al carrito</button>
+      </form>
+    </div>
+  {{/each}}
 </div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  function addToCart(event) {
+  event.preventDefault();
+  const form = event.target;
+  const name = form.elements['name'].value;
+  const price = form.elements['price'].value;
+  const quantity = form.elements['quantity'].value;
+  const thumbnail = form.elements['thumbnail'].value;
+  const data = {
+    name: name,
+    price: price,
+    quantity: quantity,
+    thumbnail: thumbnail
+  };
+  axios.post('/api/carrito/cart', data)
+    .then(response => {
+      console.log(response.data);
+      alert('Producto agregado al carrito');
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Ocurrió un error al agregar el producto al carrito');
+    });
+}
+
+function alertaCarrito(){
+    alert("Agregado al carrito")
+}
+</script>

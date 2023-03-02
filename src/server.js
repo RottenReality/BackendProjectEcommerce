@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 import handlebars from 'express-handlebars';
 import session from "express-session";
 import passport from "./passport.js";
+import bodyParser from 'body-parser';
+
 
 
 import { routerProductos } from './routes/products.js';
@@ -22,7 +24,7 @@ const __dirname = path.dirname(__filename);
 const viewsFolder = path.join(__dirname, "views");
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(session({

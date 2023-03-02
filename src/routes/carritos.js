@@ -6,6 +6,30 @@ const carts = ContenedorDaoCarts
 
 const routerCarrito = express.Router();
 
+routerCarrito.get('/cart', checkUserLogged, async (req, res) =>{
+    const id = req.session.passport.user
+    const carrito = await carts.getProducts(id);
+    const total = await carts.total(id)
+    if(carrito.length == 0){
+        res.render("emptyCart");
+    }
+    else{
+        res.render("cart", { carrito, total });
+    }
+})
+
+routerCarrito.post('/cart', async (req, res) =>{
+    const { name, price, quantity, thumbnail } = req.body;
+    const id = req.session.passport.user
+    const producto = {
+        name: name,
+        price: price,
+        quantity: quantity,
+        thumbnail: thumbnail
+    }
+    carts.saveProd(id, producto)
+})
+
 routerCarrito.post('/', async (req,res)=>{
     const newCart = await carts.createCart();
 

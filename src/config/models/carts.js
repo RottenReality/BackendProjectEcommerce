@@ -4,6 +4,7 @@ const cartsCollection = "carts";
 
 const cartsSchema = new mongoose.Schema(
     {
+        user: String,
         timestamp:String,
         products:Array
     }

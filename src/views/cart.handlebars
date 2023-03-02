@@ -1,0 +1,14 @@
+{{> nav}}
+<h1>Carrito de compras</h1>
+        {{#each carrito}}
+        <tr>
+            <img width="100" src="{{this.thumbnail}}" alt="foto">
+            <td>{{this.name}}</td>
+            <td>${{this.price}}</td>
+            <td>Cantidad: {{this.quantity}}</td>
+        </tr> <br>
+        {{/each}}
+    <p>Total: ${{total}}</p>
+    <form action="" method="post">
+        <button type="submit" class="btn btn-info my-3">Finalizar compra</button>
+    </form>

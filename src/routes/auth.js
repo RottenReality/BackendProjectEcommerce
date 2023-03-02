@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import mongoose from "mongoose";
 import { url } from '../config/configMongo.js'
-import { ContenedorDaoUsers } from '../daos/index.js';
+import { ContenedorDaoUsers, ContenedorDaoCarts} from '../daos/index.js';
 import {checkUserLogged} from '../middlewares/authMidd.js'
 
 
@@ -15,6 +15,7 @@ mongoose.connect(url,{
 });
 
 const users = ContenedorDaoUsers;
+const carts = ContenedorDaoCarts;
 
 const authRouter = express.Router();
 
@@ -27,7 +28,9 @@ authRouter.get("/signup",(req, res)=>{
 authRouter.post("/signup", passport.authenticate("signupStrategy", {
     failureRedirect:"api/auth/signupError",
     failureMessage:true
-}), (req, res)=>{
+}), async (req, res)=>{
+    const usuario = req.session.passport.user;
+    await carts.createCart(usuario)
     res.redirect("profile")
 });
 
@@ -47,13 +50,20 @@ authRouter.post("/signin", passport.authenticate("signinStrategy", {
     failureRedirect:"/api/auth/signin"
 }));
 
-authRouter.post("/logout",(req, res)=>{
-    req.logOut(err=>{
-        if(err) return res.status(400).json({error:"No se pudo cerrar la sesión"})
-        res.status(200).json({message:"session finalizada"})
+authRouter.get('/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ error: 'No se pudo cerrar la sesión' });
+      }
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ error: 'No se pudo cerrar la sesión' });
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/api/auth/signin');
+      });
     });
-    res.redirect("/signin");
-});
+  });
   
 
 authRouter.get("/test",(req, res)=>{
