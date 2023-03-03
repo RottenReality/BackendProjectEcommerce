@@ -1,8 +1,12 @@
 import express from 'express';
-import { ContenedorDaoCarts } from '../daos/index.js';
+import { ContenedorDaoCarts, ContenedorDaoUsers } from '../daos/index.js';
 import {checkUserLogged} from '../middlewares/authMidd.js'
+import { twilioClient, twilioPhone, twilioWp, adminWp } from '../messages/sms.js';
+import { transporter, email, pass } from "../messages/email.js";
+import { logger } from '../loggers/logger.js';
 
-const carts = ContenedorDaoCarts
+const carts = ContenedorDaoCarts;
+const users = ContenedorDaoUsers;
 
 const routerCarrito = express.Router();
 
@@ -28,6 +32,47 @@ routerCarrito.post('/cart', async (req, res) =>{
         thumbnail: thumbnail
     }
     carts.saveProd(id, producto)
+})
+
+routerCarrito.post('/ready', async (req,res)=>{
+    try {
+        const idUsuario = req.session.passport.user
+        const info = await users.getById(idUsuario)
+        const compInfo = await carts.getProducts(idUsuario)
+        const compTotal = await carts.total(idUsuario)
+
+        //email
+        const productsList = compInfo.map(product => `-${product.name} : Cantidad: ${product.quantity}`).join('\n')
+        await transporter.sendMail({
+            from:"server app Node",
+            to:email,
+            subject:`Nuevo pedido de ${info.nombre} - ${info.email}`,
+            text: `
+                Pedido:
+
+                ${productsList}
+
+                Total: $${compTotal}
+            `
+        })
+        //sms
+        await twilioClient.messages.create({
+            from:twilioPhone,
+            to:`+57${info.celular}`,
+            body:"El pedido ha sido recibido y se encuentra en proceso"
+        })
+        //whatsapp
+        await twilioClient.messages.create({
+            from:twilioWp,
+            to:adminWp,
+            body:`Nuevo pedido de ${info.nombre} - ${info.email}`
+        })
+        carts.deleteProds(idUsuario)
+        res.redirect("cart")
+    } catch (error) {
+        logger.error(`error: ${error}`)
+    }
+
 })
 
 routerCarrito.post('/', async (req,res)=>{

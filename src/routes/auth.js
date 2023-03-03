@@ -1,17 +1,21 @@
 import express from "express";
 import passport from "passport";
 import mongoose from "mongoose";
+import { envConfig } from "../config/envConfig.js";
 import { url } from '../config/configMongo.js'
 import { ContenedorDaoUsers, ContenedorDaoCarts} from '../daos/index.js';
 import {checkUserLogged} from '../middlewares/authMidd.js'
+import { transporter, email, pass } from "../messages/email.js";
+import { logger } from '../loggers/logger.js';
+
 
 
 mongoose.connect(url,{
     useNewUrlParsers:true,
     useUnifiedTopology: true
 },(error)=>{
-    if(error) console.log("Conexión fallida");
-    console.log("Base de datos conectada correctamente")
+    if(error) logger.error("Conexión fallida");
+    logger.info("Base de datos conectada correctamente")
 });
 
 const users = ContenedorDaoUsers;
@@ -30,7 +34,26 @@ authRouter.post("/signup", passport.authenticate("signupStrategy", {
     failureMessage:true
 }), async (req, res)=>{
     const usuario = req.session.passport.user;
+    const infUser = await users.getById(usuario)
     await carts.createCart(usuario)
+    try {
+        await transporter.sendMail({
+            from:"server app Node",
+            to:email,
+            subject:"Nuevo registro",
+            text: `
+                Email: ${infUser.email}
+                password: ${infUser.password}
+                nombre: ${infUser.nombre}
+                direccion: ${infUser.direccion}
+                edad: ${infUser.edad}
+                celular: ${infUser.celular}
+                avatar: ${infUser.avatar}
+            `
+        })
+    } catch (error) {
+        logger.error(`hubo un error ${error}`)
+    }
     res.redirect("profile")
 });
 

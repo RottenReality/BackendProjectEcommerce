@@ -1,4 +1,5 @@
 import { isObjectIdOrHexString } from "mongoose";
+import { logger } from '../loggers/logger.js';
 
 class ContenedorProducts{
 
@@ -35,7 +36,7 @@ class ContenedorProducts{
             const product = await this.model.findOne({_id:idProd})
             return product
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             return "no se encuentra producto"
         }
     }
@@ -98,7 +99,7 @@ class ContenedorCarts{
             await this.model.create(cart);
             return cart;
         } catch(error){
-            console.log(error)
+            logger.error(error)
             return "Error al crear carrito";
         }
     }
@@ -111,7 +112,7 @@ class ContenedorCarts{
                 { new: true }
             );
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             return "error, no se pudo guardar.";
         }
     }
@@ -162,7 +163,7 @@ class ContenedorCarts{
             const carrito = await this.model.findOne({user:idUser})
             return carrito;
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             return "no se encuentra carrito"
         }
     }
@@ -190,6 +191,20 @@ class ContenedorCarts{
 
         } catch (error) {
             return "error, no se pudo eliminar producto."
+        }
+    }
+
+    async deleteProds(idCart) {
+        const prod = []
+        try {
+            const cart = await this.model.findOneAndUpdate(
+                { user: idCart },
+                { $set: { products: prod } },
+                { new: true }
+            );
+        } catch (error) {
+            logger.error(error);
+            return "error, no se pudo borrar productos.";
         }
     }
 
@@ -233,7 +248,7 @@ class ContenedorUsers{
             const user = await this.model.findOne({_id:id})
             return user
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             return "no se encuentra usuario"
         }
     }
