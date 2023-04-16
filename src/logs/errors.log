@@ -1,0 +1,5 @@
+[2023-04-12T15:48:32.314] [ERROR] default - error: Error: Invalid login: 535 Authentication failed
+[2023-04-12T15:51:21.784] [ERROR] default - error: Error: Invalid login: 535 Authentication failed
+[2023-04-12T16:13:08.643] [ERROR] default - error: Error: Authenticate
+[2023-04-12T16:22:18.524] [ERROR] default - error: Error: The 'To' number +57987654321 is not a valid phone number.
+[2023-04-12T16:27:17.278] [ERROR] default - error: Error: The 'To' number +57987654321 is not a valid phone number.

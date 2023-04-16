@@ -1,4 +1,4 @@
-import { ContenedorProducts } from "../../managers/contenedorFirebase.js";
+import { ContenedorProducts } from "../../managers/firebase.manager.js";
 
 class ProductsDAOFirebase extends ContenedorProducts{
     constructor(dbInfo){

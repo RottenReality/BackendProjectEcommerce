@@ -106,6 +106,21 @@ class Contenedor{
         }
     }
 
+    async total(idUser){
+        try{
+            let total = 0;
+            const cart = await this.getById(idUser);
+            if(cart.products.length > 0){
+                cart.products.forEach(producto => total = total + (+producto.price));
+            }
+
+            return total;
+
+        } catch (error) {
+            return "error, no se pudo sacar total."
+        }
+    }
+
     async editById(id, obj){
         try {
             const productos = await this.getAll();

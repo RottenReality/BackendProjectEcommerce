@@ -92,9 +92,17 @@ class ContenedorProducts{
         }
     }
 
-    async deleteAll(){
-        
-    }
+    async deleteAll() {
+        try {
+          const snapshot = await dbCol.get();
+          const batch = db.batch();
+          snapshot.docs.forEach(doc => batch.delete(doc.ref));
+          await batch.commit();
+          return "Todos los productos eliminados con éxito";
+        } catch (error) {
+          return { "error": "No se pueden eliminar los productos" };
+        }
+      }
     
 }
 

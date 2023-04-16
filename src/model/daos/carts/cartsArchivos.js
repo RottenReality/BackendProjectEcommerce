@@ -1,4 +1,4 @@
-import {Contenedor} from "../../managers/contenedorCarrito.js";
+import {Contenedor} from "../../managers/fs.carrito.manager.js";
 
 class CartsDAOArchivos extends Contenedor{
     constructor(filepath){

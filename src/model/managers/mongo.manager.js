@@ -1,5 +1,5 @@
 import { isObjectIdOrHexString } from "mongoose";
-import { logger } from '../loggers/logger.js';
+import { logger } from '../../loggers/logger.js';
 
 class ContenedorProducts{
 

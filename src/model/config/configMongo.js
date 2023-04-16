@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
-import { ProductsModel } from "./models/products.js";
-import { CartsModel } from "./models/carts.js";
-import { UserModel } from "./models/user.js";
-import { logger } from "../loggers/logger.js";
+import { ProductsModel } from "../dbModels/products.model.js";
+import { CartsModel } from "../dbModels/cart.model.js";
+import { UserModel } from "../dbModels/user.model.js";
+import { logger } from "../../loggers/logger.js";
+import { envConfig } from "../../envConfig.js";
 
-const url = "mongodb+srv://rottenreality:BgkBxsB9PWTvBNoW@coderbackend.oorljea.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const url = envConfig.MONGO_URL;
 
 mongoose.connect(url,
 {

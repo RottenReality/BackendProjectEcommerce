@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import {readFileSync} from "fs";
+import { envConfig } from "../../envConfig";
 
 const serviceAccount = JSON.parse(readFileSync("./src/config/firebaseKey.json"));
 console.log(serviceAccount);
@@ -8,7 +9,7 @@ try {
     admin.initializeApp(
         {
             credential:admin.credential.cert(serviceAccount),
-            databaseURL: "https://backendproyect-2c344.firebase.io"
+            databaseURL: envConfig.FB_LINK
         }
     );
 

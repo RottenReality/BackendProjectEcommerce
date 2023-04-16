@@ -6,12 +6,11 @@ import handlebars from 'express-handlebars';
 import session from "express-session";
 import passport from "./passport.js";
 import bodyParser from 'body-parser';
+import { envConfig } from './model/config/envConfig.js';
 
 
 
-import { routerProductos } from './routes/products.js';
-import { routerCarrito } from './routes/carritos.js';
-import { authRouter } from './routes/auth.js';
+import { apiRouter } from './routes/index.js';
 
 
 //const PORT = process.env.PORT || 8080;
@@ -43,12 +42,11 @@ app.set("views", viewsFolder);
 app.set("view engine", "handlebars");
 
 
-app.use('/api/productos', routerProductos);
-app.use('/api/carrito', routerCarrito);
-app.use('/api/auth', authRouter);
+app.use(apiRouter);
 
-const PORT = 8080;
+const PORT = envConfig.PORT;
 app.listen(PORT, ()=>{
+    console.log(process.env.ADMIN_EMAIL)
     logger.info(`Servidor escuchando el puerto: ${PORT}`);
 })
 

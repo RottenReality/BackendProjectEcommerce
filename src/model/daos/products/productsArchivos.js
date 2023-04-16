@@ -1,4 +1,4 @@
-import { Contenedor } from "../../managers/contenedorProductos.js";
+import { Contenedor } from "../../managers/fs.product.manager.js";
 
 class ProductsDAOArchivos extends Contenedor{
     constructor(filepath){

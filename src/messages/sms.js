@@ -1,13 +1,14 @@
 import twilio from "twilio";
+import { envConfig } from "../model/config/envConfig.js";
 
-const accountId = "AC9479f5658a0b447561c8e50e146082f5";
-const tokenTwilio = "a4aeff81bc4c82458ebff18f02d3379f";
+const accountId = envConfig.ACCOUNT_ID_TWILIOM;
+const tokenTwilio = envConfig.TOKEN_TWILIO;
 
-const twilioPhone = "+12708196783";
-const adminPhone = "+573052327945";
+const twilioPhone = envConfig.TWILIO_PHONE;
+const adminPhone = envConfig.ADMIN_PHONE;
 
-const twilioWp = "whatsapp:+14155238886";
-const adminWp = "whatsapp:+573052327945";
+const twilioWp = envConfig.TWILIO_WP;
+const adminWp = envConfig.ADMIN_WP;
 
 const twilioClient = twilio(accountId, tokenTwilio);
 

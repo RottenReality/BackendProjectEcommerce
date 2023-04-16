@@ -1,4 +1,4 @@
-import { ContenedorUsers } from "../../managers/contenedorMongo.js";
+import { ContenedorUsers } from "../../managers/mongo.manager.js";
 
 class UsersDAOMongo extends ContenedorUsers{
     constructor(dbInfo){

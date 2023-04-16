@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { UserModel } from "./config/models/user.js";
+import { UserModel } from "./model/dbModels/user.model.js";
 
 passport.serializeUser((user, done)=>{
     return done(null, user.id)

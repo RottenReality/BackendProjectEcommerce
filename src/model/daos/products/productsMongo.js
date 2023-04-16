@@ -1,4 +1,4 @@
-import { ContenedorProducts } from "../../managers/contenedorMongo.js";
+import { ContenedorProducts } from "../../managers/mongo.manager.js";
 
 class ProductsDAOMongo extends ContenedorProducts{
     constructor(dbInfo){
