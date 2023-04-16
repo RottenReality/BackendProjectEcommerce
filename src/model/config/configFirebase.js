@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import {readFileSync} from "fs";
-import { envConfig } from "../../envConfig";
+import { envConfig } from "./envConfig.js";
 
 const serviceAccount = JSON.parse(readFileSync("./src/config/firebaseKey.json"));
 console.log(serviceAccount);
