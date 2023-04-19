@@ -1,14 +1,15 @@
 import twilio from "twilio";
-import { envConfig } from "../model/config/envConfig.js";
+import { ACCOUNT_ID_TWILIO, TOKEN_TWILIO, TWILIO_PHONE, ADMIN_PHONE, TWILIO_WP, ADMIN_WP} from "../model/config/envConfig.js";
 
-const accountId = envConfig.ACCOUNT_ID_TWILIOM;
-const tokenTwilio = envConfig.TOKEN_TWILIO;
 
-const twilioPhone = envConfig.TWILIO_PHONE;
-const adminPhone = envConfig.ADMIN_PHONE;
+const accountId = ACCOUNT_ID_TWILIO;
+const tokenTwilio = TOKEN_TWILIO;
 
-const twilioWp = envConfig.TWILIO_WP;
-const adminWp = envConfig.ADMIN_WP;
+const twilioPhone = TWILIO_PHONE;
+const adminPhone = ADMIN_PHONE;
+
+const twilioWp = TWILIO_WP;
+const adminWp = ADMIN_WP;
 
 const twilioClient = twilio(accountId, tokenTwilio);
 

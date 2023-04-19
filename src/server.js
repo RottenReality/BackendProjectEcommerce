@@ -6,7 +6,8 @@ import handlebars from 'express-handlebars';
 import session from "express-session";
 import passport from "./passport.js";
 import bodyParser from 'body-parser';
-import { envConfig } from './model/config/envConfig.js';
+import dotenv from "dotenv";
+import { PORT } from './model/config/envConfig.js';
 
 
 
@@ -44,10 +45,7 @@ app.set("view engine", "handlebars");
 
 app.use(apiRouter);
 
-const PORT = envConfig.PORT;
+
 app.listen(PORT, ()=>{
-    console.log(process.env.ADMIN_EMAIL)
     logger.info(`Servidor escuchando el puerto: ${PORT}`);
 })
-
-//let administrador = false;

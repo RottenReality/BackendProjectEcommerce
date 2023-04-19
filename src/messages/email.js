@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
-import { envConfig } from "../model/config/envConfig.js";
+import { ADMIN_EMAIL, ADMIN_PASS } from "../model/config/envConfig.js";
 
-const email = envConfig.EMAIL;
-const pass = envConfig.PASS;
+const email = ADMIN_EMAIL;
+const pass = ADMIN_PASS;
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',

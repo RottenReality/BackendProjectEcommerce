@@ -1,8 +1,8 @@
 import {getApiDao} from "../model/index.js";
-import { envConfig } from "../model/config/envConfig.js";
+import { DB } from "../model/config/envConfig.js";
 //options.server.DB_TYPE
 
-const {ContenedorDaoUsers} = await getApiDao(envConfig.DB_TYPE);
+const {ContenedorDaoUsers} = await getApiDao(DB);
 
 class AuthService{
     static async getAll(){

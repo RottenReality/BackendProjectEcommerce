@@ -1,9 +1,9 @@
 import {getApiDao} from "../model/index.js";
-import { envConfig } from "../model/config/envConfig.js";
+import { DB } from "../model/config/envConfig.js";
 
 //options.server.DB_TYPE
 
-const {ContenedorDaoCarts} = await getApiDao(envConfig.DB_TYPE);
+const {ContenedorDaoCarts} = await getApiDao(DB);
 
 class CarritoService{
     static async createCart(){

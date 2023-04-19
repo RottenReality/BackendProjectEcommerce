@@ -3,9 +3,9 @@ import { ProductsModel } from "../dbModels/products.model.js";
 import { CartsModel } from "../dbModels/cart.model.js";
 import { UserModel } from "../dbModels/user.model.js";
 import { logger } from "../../loggers/logger.js";
-import { envConfig } from "./envConfig.js";
+import { MONGO_URL } from "./envConfig.js";
 
-const url = envConfig.MONGO_URL;
+const url = MONGO_URL;
 
 mongoose.connect(url,
 {
