@@ -9,5 +9,8 @@ const router = express.Router();
 router.use("/api/auth", authRouter);
 router.use("/api/carrito", carritoRouter);
 router.use("/api/productos", productRouter);
+router.get("/",(req,res)=>{
+    res.redirect("/api/auth/signin")
+});
 
 export {router as apiRouter};

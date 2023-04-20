@@ -6,8 +6,8 @@ import { DB } from "../model/config/envConfig.js";
 const {ContenedorDaoCarts} = await getApiDao(DB);
 
 class CarritoService{
-    static async createCart(){
-        const prods = await ContenedorDaoCarts.createCart();
+    static async createCart(id){
+        const prods = await ContenedorDaoCarts.createCart(id);
         return prods;
     }
 
@@ -40,8 +40,8 @@ class CarritoService{
         return prod;
     }
 
-    static async deleteProdByiD(idCart, idProd){
-        const prod = await ContenedorDaoCarts.deleteProdByiD(idCart,idProd);
+    static async deleteProdByiD(idUser, prodName){
+        const prod = await ContenedorDaoCarts.deleteProdByiD(idUser,prodName);
         return prod;
     }
 

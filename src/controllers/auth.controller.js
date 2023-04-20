@@ -1,14 +1,19 @@
 import { AuthService } from '../services/auth.service.js';
+import { CarritoService } from '../services/carrito.service.js';
 import { transporter, email } from "../messages/email.js";
-import { logger } from '../loggers/logger.js';
+import { logger } from '../loggers/logger.js'
+import { DB } from '../model/config/envConfig.js';
 
 
     const users = AuthService;
+    const carts = CarritoService;
 class AuthController{
 
     static signup = async (req, res) => {
         if (req.session.passport) {
+            const id = req.session.passport.user
             res.redirect("profile");
+            carts.createCart(id);
         }
         res.render("signup");
     };
@@ -45,7 +50,13 @@ class AuthController{
 
     static profile = async (req, res) => {
         const info = await users.getById(req.session.passport.user);
-        res.render("profile", { info: info.toJSON() })
+        if(DB == "mongo"){
+            res.render("profile", { info: info.toJSON() })
+        }
+        else{
+            res.render("profile", { info: info })
+        }
+        
     };
 }
 

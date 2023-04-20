@@ -9,9 +9,12 @@ export async function getApiDao(dbType){
         case "filesystem":
             const {ProductsDAOArchivos} = await import("./daos/products/productsArchivos.js");
             const {CartsDAOArchivos} = await import("./daos/carts/cartsArchivos.js");
+            const {UsersDAOArchivos} = await import("./daos/users/userArchivos.js");
     
             ContenedorDaoProducts = new ProductsDAOArchivos("./src/files/productos.txt");
-            ContenedorDaoCarts = new CartsDAOArchivos("../files/carrito.txt");
+            ContenedorDaoCarts = new CartsDAOArchivos("./src/files/carrito.txt");
+            ContenedorDaoUsers = new UsersDAOArchivos("src/files/users.txt");
+
         break;
     
         case "firebase":

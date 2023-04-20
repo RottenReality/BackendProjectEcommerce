@@ -6,13 +6,13 @@ const {ContenedorDaoUsers} = await getApiDao(DB);
 
 class AuthService{
     static async getAll(){
-        const prods = await ContenedorDaoUsers.getAll();
-        return prods;
+        const users = await ContenedorDaoUsers.getAll();
+        return users;
     }
 
     static async getById(id){
-        const prod = await ContenedorDaoUsers.getById(id);
-        return prod;
+        const user = await ContenedorDaoUsers.getById(id);
+        return user;
     }
 
     

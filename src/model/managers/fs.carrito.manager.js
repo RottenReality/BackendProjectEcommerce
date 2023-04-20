@@ -5,37 +5,37 @@ class Contenedor{
         this.filename = filename
     };
 
-    async saveProd(idCart, idProd){
-        
-        try{
-            if(fs.existsSync(this.filename)){
-
-                const carrito = await this.getById(idCart);
-
-
-                if(idProd == "no se encuentra producto"){
-                    return "El producto que intenta agregar no existe";
-
-                } else{
-                    carrito.products.push(idProd);
-                    const carts = await this.getAll();
-                    carts[parseInt(idCart) - 1] = carrito;
-                    fs.promises.writeFile(this.filename, JSON.stringify(carts, null, 2))
-                    return carrito;
-                }
-            } else {
-                carrito.products.push(idProd);
-                const carts = await this.getAll();
-                carts[parseInt(idCart) - 1] = carrito;
-                fs.promises.writeFile(this.filename, JSON.stringify(carts, null, 2))
-                return carrito;
-            }
+    async saveProd(idCart, prod) {
+        try {
+          const carts = await this.getAll();
+      
+          const cartIndex = carts.findIndex(cart => cart.id === idCart);
+      
+          if (cartIndex < 0) {
+            return "El carrito no existe";
+          }
+      
+          const carrito = carts[cartIndex];
+      
+          const productIndex = carrito.products.findIndex(product => product.name === prod.name);
+      
+          if (productIndex >= 0) {
+            carrito.products[productIndex].quantity += prod.quantity;
+          } else {
+            carrito.products.push(prod);
+          }
+      
+          carts[cartIndex] = carrito;
+      
+          await fs.promises.writeFile(this.filename, JSON.stringify(carts, null, 2));
+      
+          return carrito;
         } catch (error) {
-            return "error, no se pudo guardar."
+          return "Error, no se pudo guardar.";
         }
-    }
+      }
 
-    async createCart(){
+    async createCart(id){
 
         let rito = {};
 
@@ -73,7 +73,9 @@ class Contenedor{
         try {
             const carrito = await this.getAll();
             const filtCart = carrito.find(elemento=>elemento.id === parseInt(idCart));
+            
             return filtCart.products;
+            
         } catch (error) {
             return "no se encuentra carrito"
         }
@@ -111,7 +113,7 @@ class Contenedor{
             let total = 0;
             const cart = await this.getById(idUser);
             if(cart.products.length > 0){
-                cart.products.forEach(producto => total = total + (+producto.price));
+                cart.products.forEach(producto => total = total + (+producto.price * producto.quantity));
             }
 
             return total;

@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "email": "ejemplo@gmail.com",
+    "password": "$2b$10$U2Xwq/JLava6UzHoc6CRsuU2jJR7P4Jh71pRZ97ujbBaf7seJ6inq",
+    "nombre": "Andrew",
+    "direccion": "12345678",
+    "edad": "21",
+    "celular": "987654321",
+    "avatar": "https://cdn-icons-png.flaticon.com/512/21/21104.png"
+  }
+]

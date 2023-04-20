@@ -106,16 +106,22 @@ class ContenedorCarts{
 
     async saveProd(idCart, prod) {
         try {
-            const cart = await this.model.findOneAndUpdate(
-                { user: idCart },
-                { $push: { products: prod } },
-                { new: true }
-            );
+          await this.model.findOneAndUpdate(
+            {
+              user: idCart,
+              products: { $elemMatch: { name: prod.name } }
+            },
+            { $inc: { "products.$.quantity": prod.quantity } }
+          );
+          await this.model.findOneAndUpdate(
+            { user: idCart, products: { $not: { $elemMatch: { name: prod.name } } } },
+            { $push: { products: prod } }
+          );
         } catch (error) {
-            logger.error(error);
-            return "error, no se pudo guardar.";
+          logger.error(error);
+          throw new Error("error, no se pudo guardar.");
         }
-    }
+      }
 
     async total(idUser){
         try{
@@ -177,13 +183,14 @@ class ContenedorCarts{
         }
     }
 
-    async deleteProdByiD(idCart, idProd){
+    async deleteProdByiD(idUser, prodName){
 
         try{
-            const pros = this.getById(idCart);
-            const ed = pros.filter(elemento=>elemento.id != idProd);
+            const pros = this.getProducts(idUser);
+            const cart = this.getById(idUser)
+            const ed = pros.filter(elemento=>elemento.name != prodName);
             pros.products = ed;
-            await this.model.updateById(idCart, pros.productos);
+            await this.model.updateById(cart._id, pros);
              
 
             return "producto eliminado con éxito";

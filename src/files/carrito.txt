@@ -1,16 +1,19 @@
 [
   {
     "id": 1,
-    "timestamp": "fecha",
+    "timestamp": 1681943404845,
     "products": [
       {
-        "title": "zapatos",
-        "description": "producto",
-        "price": 70,
-        "stock": 10,
-        "timestamp": "fecha",
-        "thumbnail": "https://media.istockphoto.com/photos/trenchcoat-picture-id518177352?k=20&m=518177352&s=612x612&w=0&h=ou-nQusk6JNcXpOMECx1tI_ib-JdpY74ZjctvJIT904=",
-        "id": 2
+        "name": "abrigo",
+        "price": "65",
+        "quantity": 4,
+        "thumbnail": "https://media.istockphoto.com/photos/trenchcoat-picture-id518177352?k=20&m=518177352&s=612x612&w=0&h=ou-nQusk6JNcXpOMECx1tI_ib-JdpY74ZjctvJIT904="
+      },
+      {
+        "name": "zapatos",
+        "price": "70",
+        "quantity": 1,
+        "thumbnail": "https://media.istockphoto.com/photos/trenchcoat-picture-id518177352?k=20&m=518177352&s=612x612&w=0&h=ou-nQusk6JNcXpOMECx1tI_ib-JdpY74ZjctvJIT904="
       }
     ]
   }

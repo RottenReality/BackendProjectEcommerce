@@ -14,6 +14,8 @@ class CarritoController{
         const id = req.session.passport.user
         const carrito = await carts.getProducts(id);
         const total = await carts.total(id)
+
+        
         if(carrito.length == 0){
             res.render("emptyCart");
         }
@@ -77,7 +79,8 @@ class CarritoController{
     };
 
     static newCart = async (req, res) => {
-        const newCart = await carts.createCart();
+        const id = req.session.passport.user
+        const newCart = await carts.createCart(id);
 
         if(typeof(newCart) == 'string'){
             res.send(newCart);
@@ -115,11 +118,13 @@ class CarritoController{
     };
 
     static deleteCartProd = async (req, res) => {
-        const idCart = req.params.id;
-        const idProd = req.params.id_prod;
-        const result = await carts.deleteProdByiD(idCart, idProd);
+        const id = req.session.passport.user;
+        const {name} = req.body;
+        console.log(name)
+        const result = await carts.deleteProdByiD(id, name);
+        console.log(result)
 
-        res.send(result);
+        res.redirect("/api/carrito/cart");
     };
 
 }

@@ -31,7 +31,7 @@
   const data = {
     name: name,
     price: price,
-    quantity: quantity,
+    quantity: parseInt(quantity),
     thumbnail: thumbnail
   };
   axios.post('/api/carrito/cart', data)

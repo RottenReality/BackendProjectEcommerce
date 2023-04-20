@@ -1,4 +1,5 @@
 import { ProductService } from '../services/product.service.js';
+import { DB } from '../model/config/envConfig.js';
 
 const prods = ProductService;
 
@@ -7,7 +8,12 @@ class ProductController{
 
     static getProducts = async (req, res) => {
         const listProductos = await prods.getProducts();
-        res.render("prods", {productos: listProductos.map(producto => producto.toJSON())})
+        if(DB == "mongo"){
+            res.render("prods", {productos: listProductos.map(producto => producto.toJSON())})
+        } else{
+            res.render("prods", {productos: listProductos.map(producto => producto)})
+        }
+        
     }
 
     static getProdById = async (req, res) => {
